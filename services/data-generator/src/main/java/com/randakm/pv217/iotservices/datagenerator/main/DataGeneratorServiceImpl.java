@@ -12,15 +12,19 @@ import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ApplicationScoped
 public class DataGeneratorServiceImpl implements DataGeneratorService {
+  private static final Logger LOGGER = LoggerFactory.getLogger(DataGeneratorServiceImpl.class);
 
   private List<MeasurementGenerator> generators;
   private long seed;
   
   @PostConstruct
   public void init() {
-    System.out.println("Initializing!");
+    LOGGER.debug("Initializing!");
     generators = new ArrayList<>();
     
     seed = new Random().nextLong();
@@ -51,8 +55,7 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
       try {
         list.add(mg.generate());
       } catch(Exception e) {
-        System.out.println("Failed generating value");
-        e.printStackTrace();//TODO logging
+        LOGGER.debug("Failed generating value");
       }
     }
     
