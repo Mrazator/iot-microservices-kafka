@@ -4,8 +4,8 @@ public class MeasurementGeneratorNormalImplConfig {
   private String name;
   private Float mean;
   private Float deviation;
-  private Float min = Float.POSITIVE_INFINITY;
-  private Float max = Float.NEGATIVE_INFINITY;
+  private Float min = Float.NEGATIVE_INFINITY;
+  private Float max = Float.POSITIVE_INFINITY;
   private Float errorRate = 0f;
 
   /**

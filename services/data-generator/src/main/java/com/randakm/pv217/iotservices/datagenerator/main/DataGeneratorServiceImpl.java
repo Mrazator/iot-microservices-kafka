@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class DataGeneratorImpl implements DataGeneratorService {
+public class DataGeneratorServiceImpl implements DataGeneratorService {
 
   private List<MeasurementGenerator> generators;
   private long seed;
@@ -26,8 +26,8 @@ public class DataGeneratorImpl implements DataGeneratorService {
     seed = new Random().nextLong();
     
     addGenerator("Frequency", 60f, 10f, 0f, 200f, 0.2f);
-    addGenerator("ActivePower", 100f, 100f, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, 0.01f);
-    addGenerator("Reactive", 100f, 100f, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, 0.01f);
+    addGenerator("ActivePower", 100f, 100f, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0.01f);
+    addGenerator("Reactive", 100f, 100f, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0.01f);
     addGenerator("DeviceTemperatureFahr", 77f, 10f, -459f, Float.POSITIVE_INFINITY, 0.05f);
   }
   
