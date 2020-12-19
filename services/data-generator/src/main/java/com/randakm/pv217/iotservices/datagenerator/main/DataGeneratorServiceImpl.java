@@ -4,6 +4,7 @@ import com.randakm.pv217.iotservices.datagenerator.core.Measurement;
 import com.randakm.pv217.iotservices.datagenerator.core.MeasurementGenerator;
 import com.randakm.pv217.iotservices.datagenerator.core.MeasurementGeneratorNormalImpl;
 import com.randakm.pv217.iotservices.datagenerator.core.MeasurementGeneratorNormalImplConfig;
+import com.randakm.pv217.iotservices.datagenerator.core.ReactivePowerCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,6 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
 
     addGenerator("freq", 0f, 200f);
     addGenerator("MW", Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY);
-    addGenerator("MVAR", Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY);
     addGenerator("TemperFahr", -459f, Float.POSITIVE_INFINITY);
   }
 
@@ -71,7 +71,20 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
       }
     }
 
+    addDependentMeasurements(list);
+
     return list;
+  }
+
+  private void addDependentMeasurements(List<Measurement> list) {
+    var mw = list.stream().filter((m) -> m.getName().equals("MW")).findFirst();
+    if (mw.isPresent()) {
+      var mvar = new Measurement();
+      mvar.setName("MVAR");
+      mvar.setTimestamp(mw.get().getTimestamp());
+      mvar.setValue(new ReactivePowerCalculator().measureReactivepower(mw.get().getValue()));
+      list.add(mvar);
+    }
   }
 
 }
