@@ -12,6 +12,8 @@ import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,20 +23,30 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
 
   private List<MeasurementGenerator> generators;
   private long seed;
-  
+
   @PostConstruct
   public void init() {
     LOGGER.debug("Initializing!");
     generators = new ArrayList<>();
-    
+
     seed = new Random().nextLong();
-    
-    addGenerator("Frequency", 60f, 10f, 0f, 200f, 0.2f);
-    addGenerator("ActivePower", 100f, 100f, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0.01f);
-    addGenerator("Reactive", 100f, 100f, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0.01f);
-    addGenerator("DeviceTemperatureFahr", 77f, 10f, -459f, Float.POSITIVE_INFINITY, 0.05f);
+
+    addGenerator("freq", 0f, 200f);
+    addGenerator("MW", Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY);
+    addGenerator("MVAR", Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY);
+    addGenerator("TemperFahr", -459f, Float.POSITIVE_INFINITY);
   }
-  
+
+  private void addGenerator(String name, float min, float max) {
+    Config cfg = ConfigProvider.getConfig();
+
+    String keyBase = "measurement." + name.toLowerCase() + ".";
+
+    addGenerator(name, cfg.getValue(keyBase + "mean", Float.class), cfg.getValue(keyBase + "dev", Float.class), min,
+        max, cfg.getValue(keyBase + "err", Float.class));
+
+  }
+
   private void addGenerator(String name, float mean, float dev, float min, float max, float err) {
     MeasurementGeneratorNormalImplConfig cfg = new MeasurementGeneratorNormalImplConfig();
     cfg.setName(name);
@@ -43,22 +55,22 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
     cfg.setMin(min);
     cfg.setMax(max);
     cfg.setErrorRate(err);
-    
+
     generators.add(new MeasurementGeneratorNormalImpl(seed, cfg));
-    
+
   }
 
   @Override
   public List<Measurement> generateMeasurements() {
     List<Measurement> list = new ArrayList<>();
-    for(var mg : generators) {
+    for (var mg : generators) {
       try {
         list.add(mg.generate());
-      } catch(Exception e) {
+      } catch (Exception e) {
         LOGGER.debug("Failed generating value");
       }
     }
-    
+
     return list;
   }
 

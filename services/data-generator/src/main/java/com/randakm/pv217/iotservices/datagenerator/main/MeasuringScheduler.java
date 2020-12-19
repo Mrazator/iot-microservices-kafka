@@ -2,6 +2,8 @@ package com.randakm.pv217.iotservices.datagenerator.main;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +29,11 @@ public class MeasuringScheduler {
   public void measure() {
     var measurements = dataGenerator.generateMeasurements();
 
+    Jsonb builder = JsonbBuilder.create();
+    String json = builder.toJson(measurements);
+    
     // TODO implement kafka push
-    LOGGER.info("pushing to kafka ");
+    LOGGER.info("pushing to kafka \n"+json);
 
   }
 }

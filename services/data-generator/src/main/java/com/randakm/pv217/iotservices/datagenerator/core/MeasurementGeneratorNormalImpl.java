@@ -48,6 +48,7 @@ public class MeasurementGeneratorNormalImpl implements MeasurementGenerator {
     }
 
     Measurement m = new Measurement();
+    m.setName(config.getName());
     m.setValue(value);
     m.setTimestamp(System.currentTimeMillis());
     
