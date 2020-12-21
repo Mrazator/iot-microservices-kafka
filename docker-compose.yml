@@ -45,7 +45,7 @@ services:
     image: data-archiver:latest
     container_name: pv217-archiver
     environment:
-      - 'quarkus.datasource.jdbc.url=jdbc:postgresql://pv217-archiver-db:6543/archiver'
+      - 'quarkus.datasource.jdbc.url=jdbc:postgresql://pv217-archiver-db:5432/archiver'
     ports:
       - 8180:8080
 
