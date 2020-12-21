@@ -1,0 +1,41 @@
+version: '3.6'
+services:
+  postgredb:
+    image: postgres
+    container_name: pv217-archiver-db
+    restart: unless-stopped
+    ports:
+      - "6543:5432"
+  data-generator-cz-sk:
+    image: data-generator:latest
+    container_name: pv217-generator-cz-sk
+    environment:
+      - 'controlcenter.id=CC-BORDER-CZ/SK'
+      - 'measurement.freq.mean=60'
+      - 'measurement.freq.dev=5'
+      - 'measurement.freq.err=0.2'
+      - 'measurement.mw.mean=100'
+      - 'measurement.mw.dev=100'
+      - 'measurement.mw.err=0.01'
+      - 'measurement.temperfahr.mean=77'
+      - 'measurement.temperfahr.dev=10'
+      - 'measurement.temperfahr.err=0.05'
+    ports:
+      - 8180:8080
+  data-generator-cz-de:
+    image: data-generator:latest
+    container_name: pv217-generator-cz-de
+    environment:
+      - 'controlcenter.id=CC-BORDER-CZ/DE'
+      - 'measurement.freq.mean=60'
+      - 'measurement.freq.dev=5'
+      - 'measurement.freq.err=0.2'
+      - 'measurement.mw.mean=400'
+      - 'measurement.mw.dev=100'
+      - 'measurement.mw.err=0.005'
+      - 'measurement.temperfahr.mean=90'
+      - 'measurement.temperfahr.dev=10'
+      - 'measurement.temperfahr.err=0.05'
+    ports:
+      - 8181:8080
+
