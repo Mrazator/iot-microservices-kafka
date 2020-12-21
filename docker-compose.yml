@@ -1,6 +1,6 @@
 version: '3.6'
 services:
-  postgredb:
+  archiverdb:
     image: postgres
     container_name: pv217-archiver-db
     restart: unless-stopped
@@ -24,7 +24,7 @@ services:
       - 'measurement.temperfahr.dev=10'
       - 'measurement.temperfahr.err=0.05'
     ports:
-      - 8180:8080
+      - 9080:8080
   data-generator-cz-de:
     image: data-generator:latest
     container_name: pv217-generator-cz-de
@@ -40,5 +40,12 @@ services:
       - 'measurement.temperfahr.dev=10'
       - 'measurement.temperfahr.err=0.05'
     ports:
-      - 8181:8080
+      - 9081:8080
+  data-archiver:
+    image: data-archiver:latest
+    container_name: pv217-archiver
+    environment:
+      - 'quarkus.datasource.jdbc.url=jdbc:postgresql://pv217-archiver-db:6543/archiver'
+    ports:
+      - 8180:8080
 
