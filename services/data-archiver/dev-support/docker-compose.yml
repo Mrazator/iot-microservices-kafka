@@ -1,0 +1,11 @@
+version: '3.6'
+services:
+  postgredb:
+    image: postgres
+    container_name: pv217-archiver-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: archiver
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "6543:5432"
