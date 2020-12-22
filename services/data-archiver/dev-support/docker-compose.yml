@@ -2,7 +2,7 @@ version: '3.6'
 services:
   postgredb:
     image: postgres
-    container_name: pv217-archiver-db
+    container_name: pv217-archiver-db-dev
     restart: unless-stopped
     environment:
       POSTGRES_USER: archiver
