@@ -35,7 +35,7 @@ public class MeasurementRepoImpl implements MeasurementRepo {
   @Override
   public List<Measurement> findMeasurements(String name, Instant from, Instant to) {
     TypedQuery<Measurement> query = entityManager.createQuery(
-        "SELECT m FROM Measurement " + "WHERE name LIKE :name AND from <= :from AND to < :to", Measurement.class);
+        "FROM Measurement WHERE name LIKE :name AND measuredAt <= :from AND measuredAt < :to", Measurement.class);
     query.setParameter("name", name);
     query.setParameter("from", from);
     query.setParameter("to", to);
