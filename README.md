@@ -6,7 +6,34 @@ Microservices prove of concept project for course PV17.  It provides functionali
   - push generated data to kafka
   - Features:
     * implements async messaging since using kafka
-
+  - expected output example:
+  ```json
+  {
+	"controlCenterId": "CC-BORDER-CZ/SK",
+	"measurements": [
+		{
+			"name": "freq",
+			"timestamp": 1608385521010,
+			"value": 42.15563
+		},
+		{
+			"name": "MW",
+			"timestamp": 1608385521010,
+			"value": -8.813544
+		},
+		{
+			"name": "MVAR",
+			"timestamp": 1608385521010,
+			"value": -8.813544
+		},
+		{
+			"name": "TemperFahr",
+			"timestamp": 1608385521010,
+			"value": 66.118645
+		}
+	]
+}
+  ```
 #### Collector service
   - subscribed to kafka, listening for data from generator
   - do some processing (remove unneeded properties, converts some measurements to other units, etc...)
@@ -14,6 +41,32 @@ Microservices prove of concept project for course PV17.  It provides functionali
   - Features:
     * implements feature of horizontal scaling since multiple instances help better performance
     * implements async messaging since using kafka
+  - expected output example:
+  ```json
+  {
+	"controlCenterId": "CC-BORDER-CZ/SK",
+	"measurements": [
+		{
+			"name": "Frequency",
+			"measuredAt": "2020-12-22T08:40:01.005Z",
+			"collectedAt": "2020-12-22T08:40:02.500Z",
+			"value": 67.193
+		},
+		{
+			"name": "Active Power",
+			"measuredAt": "2020-12-22T08:40:01.010Z",
+			"collectedAt": "2020-12-22T08:40:02.505Z",
+			"value": 123.71
+		},
+		{
+			"name": "Temperature",
+			"measuredAt": "2020-12-22T08:40:015Z",
+			"collectedAt": "2020-12-22T08:40:02.510Z",
+			"value": 24.362
+		}
+	]
+  }
+  ```
 
 #### Archiver service
   - subscribed to kafka, listening for collected data
