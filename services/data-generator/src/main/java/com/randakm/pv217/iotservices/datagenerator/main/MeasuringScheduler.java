@@ -8,6 +8,9 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +34,10 @@ public class MeasuringScheduler {
     this.dataGenerator = dataGenerator;
   }
 
+  
   @Scheduled(every = "1s")
+  @Counted(name = "measureGenerateCount", description = "Number of measurements generation done")
+  @Timed(name = "measureGenerateTime", description = "A measure of how long it takes to perform measurements generation", unit = MetricUnits.MILLISECONDS)
   public void measure() {
     Report report = new Report();
     report.setControlCenterId(controlCenterId);

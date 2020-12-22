@@ -24,6 +24,7 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
 
   private List<MeasurementGenerator> generators;
   private long seed;
+  private boolean initialized = false;
 
   @PostConstruct
   public void init() {
@@ -35,6 +36,8 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
     addGenerator("freq", 0f, 200f);
     addGenerator("MW", Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY);
     addGenerator("TemperFahr", -459f, Float.POSITIVE_INFINITY);
+    
+    initialized = true;
   }
 
   private void addGenerator(String name, float min, float max) {
@@ -85,6 +88,11 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
       mvar.setValue(new ReactivePowerCalculator().measureReactivepower(mw.get().getValue()));
       list.add(mvar);
     }
+  }
+
+  @Override
+  public boolean isInitialized() {
+    return initialized;
   }
 
 }

@@ -7,5 +7,6 @@ import java.util.List;
 public interface DataGeneratorService {
 
   List<Measurement> generateMeasurements();
+  boolean isInitialized();
   
 }
