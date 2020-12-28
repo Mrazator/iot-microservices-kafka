@@ -1,7 +1,12 @@
-## Microservices project for PV217
+# Microservices project for PV217
+
 Microservices prove of concept project for course PV17.  It provides functionality for collecting, analyzing and persisting iot data, using event streams (kafka) 
 
-#### Generator service
+## Logical architecture
+
+![Logical architecture](./architecture/logical-architecture.drawio.png)
+
+## Generator service
   - periodically enerates measurements related to power transmission devices
   - push generated data to kafka
   - Features:
@@ -34,7 +39,8 @@ Microservices prove of concept project for course PV17.  It provides functionali
 	]
 }
   ```
-#### Collector service
+
+## Collector service
   - subscribed to kafka, listening for data from generator
   - do some processing (remove unneeded properties, converts some measurements to other units, etc...)
   - push data to kafka
@@ -68,7 +74,7 @@ Microservices prove of concept project for course PV17.  It provides functionali
   }
   ```
 
-#### Archiver service
+## Archiver service
   - subscribed to kafka, listening for collected data
   - uses DB to persist collected data
   - provides REST API for retrieving specified data in specified time frames
@@ -76,12 +82,12 @@ Microservices prove of concept project for course PV17.  It provides functionali
     * implements feature simulating db unavailability (throwing error at random)
     * implements async messaging since using kafka
 
-#### Analyzer service
+## Analyzer service
   - provides REST API for retrieving statistical data about measurements per time frame and different intervals (for example, avg values per hours, during last day, etc...)
   - uses Archiver REST API to retriev needed data
   - Features:
     * implements feature of "self-healing" by retrying data retrieving from archiver
 
-#### Notification service
+## Notification service
   - used as kind of logging system
   - subscribed to all kafka topics and stores activity history
