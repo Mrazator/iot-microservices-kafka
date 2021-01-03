@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import io.smallrye.mutiny.Multi;
 
-//@ApplicationScoped
+@ApplicationScoped
 public class KafkaEndpoint {
   private static final Logger LOGGER = LoggerFactory.getLogger(KafkaEndpoint.class);
   private static final int GENERATE_INTERVAL = 1;
@@ -27,7 +27,7 @@ public class KafkaEndpoint {
     this.reportService = reportService;
   }
 
-  @Outgoing("measurement-generated-out")
+  @Outgoing("measurements-generated-out")
   public Multi<Report> generate() {
     return Multi.createFrom().ticks().every(Duration.ofSeconds(GENERATE_INTERVAL)).onOverflow().drop().map(tick -> {
       LOGGER.debug("Kafka endpoint generate called");

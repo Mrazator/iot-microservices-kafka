@@ -14,7 +14,7 @@ import io.quarkus.arc.profile.IfBuildProfile;
 public class KafkaDebugEndpoint {
 
 
-  @Incoming("measurement-generated-in")
+  @Incoming("measurements-generated-in")
   public void process(String reportJson) {
     var jsonb = JsonbBuilder.create();
     var report = jsonb.fromJson(reportJson, Report.class);
