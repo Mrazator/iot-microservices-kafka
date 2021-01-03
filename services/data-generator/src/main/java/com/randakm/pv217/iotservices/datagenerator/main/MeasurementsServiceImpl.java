@@ -15,12 +15,15 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
-public class DataGeneratorServiceImpl implements DataGeneratorService {
-  private static final Logger LOGGER = LoggerFactory.getLogger(DataGeneratorServiceImpl.class);
+public class MeasurementsServiceImpl implements MeasurementsService {
+  private static final Logger LOGGER = LoggerFactory.getLogger(MeasurementsServiceImpl.class);
 
   private List<MeasurementGenerator> generators;
   private long seed;
@@ -36,7 +39,7 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
     addGenerator("freq", 0f, 200f);
     addGenerator("MW", Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY);
     addGenerator("TemperFahr", -459f, Float.POSITIVE_INFINITY);
-    
+
     initialized = true;
   }
 
@@ -64,6 +67,8 @@ public class DataGeneratorServiceImpl implements DataGeneratorService {
   }
 
   @Override
+  @Counted(name = "generateMeasurementsCount", description = "Number of measurements generation done")
+  @Timed(name = "generateMeasurementsTime", description = "A measure of how long it takes to perform measurements generation", unit = MetricUnits.MILLISECONDS)
   public List<Measurement> generateMeasurements() {
     List<Measurement> list = new ArrayList<>();
     for (var mg : generators) {
