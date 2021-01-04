@@ -4,6 +4,7 @@ import com.randakm.pv217.iotservices.datagenerator.core.Report;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.slf4j.Logger;
@@ -22,10 +23,12 @@ public class KafkaEndpoint {
   /**
    * @param reportService
    */
-  public KafkaEndpoint(ReportService reportService, @Channel("measurements-generated-out") Emitter<Report> channel) {
+  public KafkaEndpoint(ReportService reportService, @Channel("measurements-generated-out") Emitter<Report> channel,
+      @ConfigProperty(name = "core.generating.running") boolean running) {
     super();
     this.reportService = reportService;
     this.channel = channel;
+    this.running = running;
   }
 
   public void generate() {

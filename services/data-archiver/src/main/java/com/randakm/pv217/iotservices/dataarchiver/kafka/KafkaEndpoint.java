@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import io.smallrye.reactive.messaging.annotations.Blocking;
 
-//@ApplicationScoped
+@ApplicationScoped
 public class KafkaEndpoint {
   private static final Logger LOGGER = LoggerFactory.getLogger(KafkaEndpoint.class);
 
