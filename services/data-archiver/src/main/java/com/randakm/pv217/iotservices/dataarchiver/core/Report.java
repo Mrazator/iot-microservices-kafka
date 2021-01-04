@@ -1,12 +1,10 @@
 package com.randakm.pv217.iotservices.dataarchiver.core;
 
-import com.randakm.pv217.iotservices.dataarchiver.data.Measurement;
-
 import java.util.List;
 
 public class Report {
   private String controlCenterId;
-  private List<Measurement> measurements;
+  private List<MeasurementIn> measurements;
 
   /**
    * Getter for controlCenterId.
@@ -31,7 +29,7 @@ public class Report {
    *
    * @return the measurements
    */
-  public List<Measurement> getMeasurements() {
+  public List<MeasurementIn> getMeasurements() {
     return measurements;
   }
 
@@ -40,7 +38,7 @@ public class Report {
    *
    * @param measurements - the measurements to set
    */
-  public void setMeasurements(List<Measurement> measurements) {
+  public void setMeasurements(List<MeasurementIn> measurements) {
     this.measurements = measurements;
   }
 

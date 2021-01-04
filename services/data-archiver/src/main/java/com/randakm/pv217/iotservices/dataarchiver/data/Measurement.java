@@ -24,6 +24,8 @@ public class Measurement {
 
   private Instant collectedAt;
 
+  private Instant archivedAt;
+
   @ManyToOne(fetch = FetchType.EAGER)
   private ControlCenter controlCenter;
 
@@ -115,6 +117,24 @@ public class Measurement {
    */
   public void setCollectedAt(Instant collectedAt) {
     this.collectedAt = collectedAt;
+  }
+
+  /**
+   * Getter for archivedAt.
+   *
+   * @return the archivedAt
+   */
+  public Instant getArchivedAt() {
+    return archivedAt;
+  }
+
+  /**
+   * Setter for archivedAt.
+   *
+   * @param archivedAt - the archivedAt to set
+   */
+  public void setArchivedAt(Instant archivedAt) {
+    this.archivedAt = archivedAt;
   }
 
   /**

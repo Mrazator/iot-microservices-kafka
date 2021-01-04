@@ -41,7 +41,13 @@ public class ArchiveServiceImpl implements ArchiveService {
       controlCenterRepo.addControlCenter(controlCenter);
     }
 
-    for (var m : report.getMeasurements()) {
+    for (var in : report.getMeasurements()) {
+      var m = new Measurement();
+      m.setName(in.getName());
+      m.setValue(in.getValue());
+      m.setMeasuredAt(in.getMeasuredAt());
+      m.setCollectedAt(in.getCollectedAt());
+      m.setArchivedAt(Instant.now());
       m.setControlCenter(controlCenter);
       measurementRepo.addMeasurement(m);
     }

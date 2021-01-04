@@ -1,8 +1,8 @@
 package com.randakm.pv217.iotservices.dataarchiver.rest;
 
 import com.randakm.pv217.iotservices.dataarchiver.core.ArchiveService;
+import com.randakm.pv217.iotservices.dataarchiver.core.MeasurementIn;
 import com.randakm.pv217.iotservices.dataarchiver.core.Report;
-import com.randakm.pv217.iotservices.dataarchiver.data.Measurement;
 
 import java.time.Instant;
 import java.util.List;
@@ -24,13 +24,13 @@ public class GreetingResource {
   @Produces(MediaType.TEXT_PLAIN)
   @Transactional
   public String hello() {
-    var m = new Measurement();
+    var m = new MeasurementIn();
     m.setName("Frequency");
     m.setValue(50.5f);
     m.setMeasuredAt(Instant.now().minusMillis(500));
     m.setCollectedAt(Instant.now());
     
-    var m2 = new Measurement();
+    var m2 = new MeasurementIn();
     m2.setName("ActivePower");
     m2.setValue(100.551f);
     m2.setMeasuredAt(Instant.now().minusMillis(500));
