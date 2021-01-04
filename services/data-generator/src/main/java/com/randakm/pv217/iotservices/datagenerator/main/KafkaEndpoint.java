@@ -34,4 +34,5 @@ public class KafkaEndpoint {
       return reportService.generateReport();
     });
   }
+  
 }
