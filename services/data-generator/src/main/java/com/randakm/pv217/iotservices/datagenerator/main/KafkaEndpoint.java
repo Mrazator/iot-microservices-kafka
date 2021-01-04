@@ -2,37 +2,60 @@ package com.randakm.pv217.iotservices.datagenerator.main;
 
 import com.randakm.pv217.iotservices.datagenerator.core.Report;
 
-import java.time.Duration;
-
 import javax.enterprise.context.ApplicationScoped;
 
-import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.smallrye.mutiny.Multi;
+import io.quarkus.scheduler.Scheduled;
 
 @ApplicationScoped
 public class KafkaEndpoint {
   private static final Logger LOGGER = LoggerFactory.getLogger(KafkaEndpoint.class);
-  private static final int GENERATE_INTERVAL = 1;
 
   private final ReportService reportService;
+  private final Emitter<Report> channel;
+  private boolean running = true;
 
   /**
    * @param reportService
    */
-  public KafkaEndpoint(ReportService reportService) {
+  public KafkaEndpoint(ReportService reportService, @Channel("measurements-generated-out") Emitter<Report> channel) {
     super();
     this.reportService = reportService;
+    this.channel = channel;
   }
 
-  @Outgoing("measurements-generated-out")
-  public Multi<Report> generate() {
-    return Multi.createFrom().ticks().every(Duration.ofSeconds(GENERATE_INTERVAL)).onOverflow().drop().map(tick -> {
-      LOGGER.debug("Kafka endpoint generate called");
-      return reportService.generateReport();
-    });
+  public void generate() {
+    LOGGER.debug("Kafka endpoint generate called");
+    channel.send(reportService.generateReport());
   }
-  
+
+  @Scheduled(every = "1s")
+  public void scheduledGenerate() {
+    if (running) {
+      generate();
+    }
+  }
+
+  /**
+   * Getter for running.
+   *
+   * @return the running
+   */
+  public boolean isRunning() {
+    return running;
+  }
+
+  /**
+   * Setter for running.
+   *
+   * @param running - the running to set
+   */
+  public void setRunning(boolean running) {
+    this.running = running;
+  }
+
 }
