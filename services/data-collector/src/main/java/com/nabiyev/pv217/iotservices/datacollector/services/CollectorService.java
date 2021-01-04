@@ -4,13 +4,10 @@ import com.nabiyev.pv217.iotservices.datacollector.data.Measurement;
 import com.nabiyev.pv217.iotservices.datacollector.data.MeasurementCollect;
 import com.nabiyev.pv217.iotservices.datacollector.data.Report;
 import com.nabiyev.pv217.iotservices.datacollector.data.ReportCollect;
-import sun.misc.FloatingDecimal;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
