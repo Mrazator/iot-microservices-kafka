@@ -87,3 +87,12 @@ services:
     ports:
       - 8180:8080
 
+  data-collector:
+    image: data-collector:latest
+    container_name: pv217-collector
+    environment:
+      - 'mp.messaging.connector.smallrye-kafka.bootstrap.servers=kafka1:9092'
+    ports:
+      - 8280:8080
+    
+
