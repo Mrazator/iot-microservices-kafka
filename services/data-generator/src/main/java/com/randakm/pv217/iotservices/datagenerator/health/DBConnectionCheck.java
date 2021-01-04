@@ -1,6 +1,6 @@
 package com.randakm.pv217.iotservices.datagenerator.health;
 
-import com.randakm.pv217.iotservices.datagenerator.main.DataGeneratorService;
+import com.randakm.pv217.iotservices.datagenerator.main.MeasurementsService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import org.eclipse.microprofile.health.Liveness;
 public class DBConnectionCheck implements HealthCheck {
 
   @Inject
-  private DataGeneratorService generatorService;
+  private MeasurementsService generatorService;
 
   @Override
   public HealthCheckResponse call() {
