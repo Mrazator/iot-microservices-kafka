@@ -36,7 +36,9 @@ export class KafkaConsumer {
         })
         
         consumer.on('message', (message) => {
-            log(`${pre} Received message ${message}`, LOG_TYPES.INFO)
+            const msg = process.env.SHOW_FULL_MESSAGE ? JSON.stringify(message, undefined, 4) : '';
+
+            log(`${pre} Received message ${msg}`, LOG_TYPES.INFO)
         })
     }
 
