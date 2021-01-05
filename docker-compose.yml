@@ -30,6 +30,12 @@ services:
     depends_on:
       - zoo1
 
+  notification-service:
+    image: notification-service:latest
+    container_name: pv217-notification-service
+    environment:
+     - KAFKA_HOST=kafka1:9092
+
   archiverdb:
     image: postgres
     container_name: pv217-archiver-db

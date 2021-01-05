@@ -2,7 +2,7 @@ import ws from 'ws'
 import express from 'express'
 import log4js from 'log4js'
 
-import { KafkaConsumer } from '../domain/kafka-consumer.js' // TODO: absolute path
+import { KafkaConsumer } from '../domain/kafka-consumer.js' // TODO: change to absolute path
 
 export class NotificationService
 {
@@ -13,9 +13,9 @@ export class NotificationService
         // TODO: Constant for now but could be more dynamic (more instances of this service)
         this.port = 8080
 
-        this._subscribeAll = this._subscribeAll.bind(this)
-        this._notifyClients = this._notifyClients.bind(this)
         this.init = this.init.bind(this)
+        this._notifyClients = this._notifyClients.bind(this)
+        this._subscribeAll = this._subscribeAll.bind(this)
     }
     
     init() {
@@ -29,6 +29,8 @@ export class NotificationService
         this.server.on('connection', () => {
             this._subscribeAll(this._notifyClients)
         })
+
+        this.logger.info(`Notification service initialized on ws port ${this.port}`);
     }
 
     _notifyClients(message, type) {

@@ -1,7 +1,7 @@
 import log4js from 'log4js'
 import Websocket from 'ws'
 
-import { LOG_TYPES } from './domain/log-types.js'
+import { LOG_TYPES } from '../domain/log-types.js'
 
 export class CliClient {
     constructor(id) {
@@ -10,14 +10,15 @@ export class CliClient {
 
         this.id = id
         this.pre = `[#${id} CLI]`
-        this.ws = new Websocket('ws://localhost:8080')
+        this.port = 8080
+        this.ws = new Websocket(`ws://localhost:${this.port}`)
 
         this._addListeners.call(this)
     }
 
     _addListeners() {
         this.ws.addEventListener('open', () => {
-            this.logger.info(`${this.pre} Client initialized`)
+            this.logger.info(`${this.pre} Client initialized, listening on ws port ${this.port}`)
         })
 
         this.ws.addEventListener('message', ({ data }) => {

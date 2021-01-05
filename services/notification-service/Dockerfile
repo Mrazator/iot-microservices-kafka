@@ -1,7 +1,11 @@
-# Base image of the docker container
-FROM node:latest
-USER node
-COPY . .
+FROM node:15.3.0
+
+WORKDIR /notification-service
+
+COPY package*.json ./
+
 RUN npm install
-EXPOSE 8081
-CMD [ "node", "index.js" ]
+
+COPY . .
+
+CMD [ "node", "scripts/init-all.js" ]

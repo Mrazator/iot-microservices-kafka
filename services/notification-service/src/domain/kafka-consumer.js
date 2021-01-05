@@ -1,3 +1,4 @@
+import log4js from 'log4js'
 import { KafkaClient, Consumer } from 'kafka-node'
 
 import { LOG_TYPES } from './log-types.js'
@@ -5,9 +6,15 @@ import { LOG_TYPES } from './log-types.js'
 export class KafkaConsumer {
     // TODO: this localhost should be more dynamic (env variable?)
     constructor(host = 'localhost:9092') {
+        this.logger =  log4js.getLogger()
+        this.logger.level = 'debug'
+
+        this.host = process.env.KAFKA_HOST || host
         this.client = new KafkaClient({ 
-            kafkaHost: host
+            kafkaHost: this.host
         })
+
+        this.logger.debug(`Created kafka client on host ${this.host}`)
 
         this.subscribe = this.subscribe.bind(this)
     }
@@ -31,8 +38,6 @@ export class KafkaConsumer {
         consumer.on('message', (message) => {
             log(`${pre} Received message ${message}`, LOG_TYPES.INFO)
         })
-
-        log(`${pre} Topic initialized`, LOG_TYPES.INFO)
     }
 
     // TODO: add unsubscribe
