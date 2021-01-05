@@ -35,6 +35,7 @@ services:
     container_name: pv217-notification-service
     environment:
      - KAFKA_HOST=kafka1:9092
+     - SHOW_FULL_MESSAGE=true
 
   archiverdb:
     image: postgres
