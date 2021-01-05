@@ -21,4 +21,9 @@ docker build -f src/main/docker/Dockerfile.jvm -t "data-archiver:latest" .
 cd ../..
 echo "Archiver Image Built!"
 
+cd ./services/notification-service
+docker build -t "notification-service:latest" .
+cd ../..
+echo "Notification Image Built!"
+
 
