@@ -3,6 +3,7 @@ import { KafkaClient, Consumer } from 'kafka-node'
 import { LOG_TYPES } from './log-types.js'
 
 export class KafkaConsumer {
+    // TODO: this localhost should be more dynamic (env variable?)
     constructor(host = 'localhost:9092') {
         this.client = new KafkaClient({ 
             kafkaHost: host
