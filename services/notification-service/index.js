@@ -1,47 +1,15 @@
-import log4js from 'log4js'
-// import kafka from 'kafka-node'
+import { CliClient } from './src/cli.js';
+import { NotificationService } from './src/services/notification-service.js'
 
-import { KafkaConsumer } from './src/consumer.js'
-// Log4js necessary configuration
-log4js.getLogger().level = 'debug'
+/**
+ * Notification service listens to configured kafka topics,
+ * and if anything happens, it sends notifications to all connected (CLI) clients via websocket
+ */
 
-const dataGeneratedConsumer = new KafkaConsumer()
-const dataAnalyzedConsumer = new KafkaConsumer()
-const dataProcessedConsumer = new KafkaConsumer()
-const dataArchivedConsumer = new KafkaConsumer()
+const notification = new NotificationService();
 
-dataGeneratedConsumer.subscribe('data-generated')
-dataAnalyzedConsumer.subscribe('data-analyzed')
-dataProcessedConsumer.subscribe('data-processed')
-dataArchivedConsumer.subscribe('data-generated')
+// Trigger notification service initialization right away
+notification.init();
 
-// var Producer = kafka.Producer,
-//     client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' }),
-//     producer = new Producer(client),
-//     payloads = [
-//         { 
-//             topic: 'data-generated', 
-//             messages: ['test message'] 
-//         }
-//     ];
-
-//     client.on('ready', function (){
-//         console.log('client ready');
-//     })  
-
-//     client.on('error', function (err){
-//         console.log('client error: ' + err);
-//     })  
-
-//     producer.on('ready', function () {
-//         console.log('ready')
-//         producer.send(payloads, function (err, data) {
-//             console.log('send: ' + data);        
-//             process.exit();
-//         });
-//     });
-
-//     producer.on('error', function (err) {
-//         console.log('error: ' + err);
-//         process.exit();
-//     });
+// Initialize first simple cli client
+const cli1 = new CliClient(1);

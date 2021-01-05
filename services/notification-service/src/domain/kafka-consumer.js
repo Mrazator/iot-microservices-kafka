@@ -1,5 +1,6 @@
-import log4js from 'log4js'
 import { KafkaClient, Consumer } from 'kafka-node'
+
+import { LOG_TYPES } from './log-types.js'
 
 export class KafkaConsumer {
     constructor(host = 'localhost:9092') {
@@ -7,32 +8,31 @@ export class KafkaConsumer {
             kafkaHost: host
         })
 
-        this.consumer = null
-        this.logger = log4js.getLogger()
-
         this.subscribe = this.subscribe.bind(this)
     }
 
-    subscribe(topic) {
+    subscribe(topic, log) {
         const consumer = new Consumer(
             this.client,
             [{ topic }]
         );
 
+        const pre = `[${topic}]`;
+
         consumer.on('error', (err) => {
-            this.logger.error('Error in the consumer', err)
+            log(`${pre} ${err}`, LOG_TYPES.ERROR)
         })
-
+        
         consumer.on('offsetOutOfRange', (err) => {
-            this.logger.error('OffsetOutOfRange in the consumer', err)
+            log(`${pre} ${err}`, LOG_TYPES.ERROR)
         })
-
+        
         consumer.on('message', (message) => {
-            this.logger.info('Received message from consumer, topic', topic, ', message', message)
+            log(`${pre} Received message ${message}`, LOG_TYPES.INFO)
         })
 
-        this.consumer = consumer;
-
-        this.logger.info('Successfully subscribed to topic', topic)
+        log(`${pre} Topic initialized`, LOG_TYPES.INFO)
     }
+
+    // TODO: add unsubscribe
 }
