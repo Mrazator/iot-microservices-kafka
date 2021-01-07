@@ -66,7 +66,7 @@ Microservices prove of concept project for course PV217.  It provides functional
 		},
 		{
 			"name": "Temperature",
-			"measuredAt": "2020-12-22T08:40:015Z",
+			"measuredAt": "2020-12-22T08:40:01.015Z",
 			"collectedAt": "2020-12-22T08:40:02.510Z",
 			"value": 24.362
 		}

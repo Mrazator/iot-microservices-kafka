@@ -74,6 +74,7 @@ services:
     container_name: pv217-generator-cz-sk
     environment:
       - 'mp.messaging.connector.smallrye-kafka.bootstrap.servers=kafka1:9092'
+      - 'core.generating.running=true'
       - 'controlcenter.id=CC-BORDER-CZ/SK'
       - 'measurement.freq.mean=60'
       - 'measurement.freq.dev=5'
@@ -91,6 +92,7 @@ services:
     container_name: pv217-generator-cz-de
     environment:
       - 'mp.messaging.connector.smallrye-kafka.bootstrap.servers=kafka1:9092'
+      - 'core.generating.running=true'
       - 'controlcenter.id=CC-BORDER-CZ/DE'
       - 'measurement.freq.mean=60'
       - 'measurement.freq.dev=5'
@@ -109,6 +111,7 @@ services:
     environment:
       - 'mp.messaging.connector.smallrye-kafka.bootstrap.servers=kafka1:9092'
       - 'quarkus.datasource.jdbc.url=jdbc:postgresql://pv217-archiver-db:5432/archiver'
+      - 'archiveService.simulatedExceptionRatePercent=20'
     ports:
       - 8180:8080
 

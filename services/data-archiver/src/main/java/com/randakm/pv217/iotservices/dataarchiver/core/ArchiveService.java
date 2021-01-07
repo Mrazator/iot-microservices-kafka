@@ -9,5 +9,5 @@ public interface ArchiveService {
 
   public void archiveMeasurementsReport(Report report);
   
-  public List<Measurement> findMeasurements(String name, Instant from, Instant to);
+  public List<Measurement> findMeasurements(String name, Instant from, Instant to, String controlCenterId);
 }

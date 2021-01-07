@@ -11,6 +11,6 @@ public interface MeasurementRepo {
 
   List<Measurement> findMeasurements();
 
-  List<Measurement> findMeasurements(String name, Instant from, Instant to);
+  List<Measurement> findMeasurements(String name, Instant from, Instant to, String controlCenterId);
 
 }
