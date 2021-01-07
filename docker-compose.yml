@@ -30,12 +30,38 @@ services:
     depends_on:
       - zoo1
 
-  notification-service:
-    image: notification-service:latest
-    container_name: pv217-notification-service
+  notification-service-server:
+    image: notification-service-server:latest
+    container_name: pv217-notification-service-server
     environment:
-     - KAFKA_HOST=kafka1:9092
-     - SHOW_FULL_MESSAGE=true
+    - KAFKA_HOST=kafka1:9092
+    - SHOW_FULL_MESSAGE=true
+    # Setting for host network_mode for simplicity, could be done better (at least with env variables)
+    network_mode: 
+      host
+
+  # Hardcoded two services - could be more dynamic with k8s 
+  notification-service-client-1:
+    image: notification-service-client:latest
+    container_name: pv217-notification-service-client-1
+    environment:
+    - KAFKA_HOST=kafka1:9092
+    - SHOW_FULL_MESSAGE=true
+    # Waiting 3 seconds for simplicity - could be done better by checking the ws port or by healthchecks (or by many other solutions :D)
+    command: bash -c "sleep 3; node /notification-service-client/scripts/init-cli-client.js"
+    network_mode: 
+      host
+
+  notification-service-client-2:
+    image: notification-service-client:latest
+    container_name: pv217-notification-service-client-2
+    environment:
+    - KAFKA_HOST=kafka1:9092
+    - SHOW_FULL_MESSAGE=true
+    # Waiting 3 seconds for simplicity - could be done better by checking the ws port or by healthchecks (or by many other solutions :D)
+    command: bash -c "sleep 3; node /notification-service-client/scripts/init-cli-client.js"
+    network_mode: 
+      host
 
   archiverdb:
     image: postgres
