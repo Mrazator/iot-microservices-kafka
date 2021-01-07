@@ -76,16 +76,7 @@ services:
     - data-generator-cz-de
     - data-archiver
     - data-collector
-
-  archiverdb:
-    image: postgres
-    container_name: pv217-archiver-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: archiver
-      POSTGRES_PASSWORD: pass
-    ports:
-      - "6543:5432"
+    
   data-generator-cz-sk:
     image: data-generator:latest
     container_name: pv217-generator-cz-sk
@@ -104,6 +95,9 @@ services:
       - 'measurement.temperfahr.err=0.05'
     ports:
       - 9080:8080
+    depends_on:
+      - kafka1
+      
   data-generator-cz-de:
     image: data-generator:latest
     container_name: pv217-generator-cz-de
@@ -122,6 +116,29 @@ services:
       - 'measurement.temperfahr.err=0.05'
     ports:
       - 9081:8080
+    depends_on:
+      - kafka1
+  
+  data-collector:
+    image: data-collector:latest
+    container_name: pv217-collector
+    environment:
+      - 'mp.messaging.connector.smallrye-kafka.bootstrap.servers=kafka1:9092'
+    ports:
+      - 8280:8080
+    depends_on:
+      - kafka1
+      
+  archiverdb:
+    image: postgres
+    container_name: pv217-archiver-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: archiver
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "6543:5432"
+      
   data-archiver:
     image: data-archiver:latest
     container_name: pv217-archiver
@@ -131,13 +148,7 @@ services:
       - 'archiveService.simulatedExceptionRatePercent=20'
     ports:
       - 8180:8080
-
-  data-collector:
-    image: data-collector:latest
-    container_name: pv217-collector
-    environment:
-      - 'mp.messaging.connector.smallrye-kafka.bootstrap.servers=kafka1:9092'
-    ports:
-      - 8280:8080
+    depends_on:
+      - kafka1
     
 
