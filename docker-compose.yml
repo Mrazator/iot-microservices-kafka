@@ -54,6 +54,11 @@ services:
     command: bash -c "sleep 3; node /notification-service-client/scripts/init-cli-client.js"
     depends_on: 
     - kafka1
+    - archiverdb
+    - data-generator-cz-sk
+    - data-generator-cz-de
+    - data-archiver
+    - data-collector
 
   notification-service-client-2:
     image: notification-service-client:latest
@@ -66,6 +71,11 @@ services:
     command: bash -c "sleep 3; node /notification-service-client/scripts/init-cli-client.js"
     depends_on: 
     - kafka1
+    - archiverdb
+    - data-generator-cz-sk
+    - data-generator-cz-de
+    - data-archiver
+    - data-collector
 
   archiverdb:
     image: postgres
