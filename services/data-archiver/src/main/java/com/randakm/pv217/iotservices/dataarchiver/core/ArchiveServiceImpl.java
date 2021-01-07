@@ -5,6 +5,7 @@ import com.randakm.pv217.iotservices.dataarchiver.data.Measurement;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Random;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import org.eclipse.microprofile.metrics.annotation.Timed;
 @ApplicationScoped
 @Transactional
 public class ArchiveServiceImpl implements ArchiveService {
+  private static final int SIMULATED_EXCEPTION_PROBABILITY_PERCENT = 20;
 
   private final ControlCenterRepo controlCenterRepo;
   private final MeasurementRepo measurementRepo;
@@ -55,7 +57,15 @@ public class ArchiveServiceImpl implements ArchiveService {
 
   @Override
   public List<Measurement> findMeasurements(String name, Instant from, Instant to) {
+//    simulateError();
+//    return measurementRepo.findMeasurements();
     return measurementRepo.findMeasurements(name, from, to);
+  }
+
+  private void simulateError() {
+    if (new Random().nextInt(100) < SIMULATED_EXCEPTION_PROBABILITY_PERCENT) {
+      throw new SimulatedException("Simulated DB exception!");
+    }
   }
 
 }

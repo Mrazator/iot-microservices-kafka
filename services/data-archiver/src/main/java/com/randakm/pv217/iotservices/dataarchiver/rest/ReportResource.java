@@ -24,7 +24,7 @@ public class ReportResource {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public void getMeasurements(Report report) {
+  public void archiveReport(Report report) {
     archiveService.archiveMeasurementsReport(report);
   }
 }

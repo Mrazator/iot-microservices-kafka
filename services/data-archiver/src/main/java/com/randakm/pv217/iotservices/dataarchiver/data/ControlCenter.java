@@ -3,6 +3,7 @@ package com.randakm.pv217.iotservices.dataarchiver.data;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ public class ControlCenter {
   private String id;
   private String description;
 
+  @JsonbTransient
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "controlCenter")
   private Set<Measurement> measurements = new HashSet<>();
 

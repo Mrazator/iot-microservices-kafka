@@ -29,13 +29,13 @@ public class MeasurementRepoImpl implements MeasurementRepo {
 
   @Override
   public List<Measurement> findMeasurements() {
-    return entityManager.createQuery("SELECT m FROM ", Measurement.class).getResultList();
+    return entityManager.createQuery("FROM Measurement", Measurement.class).getResultList();
   }
 
   @Override
   public List<Measurement> findMeasurements(String name, Instant from, Instant to) {
     TypedQuery<Measurement> query = entityManager.createQuery(
-        "FROM Measurement WHERE name LIKE :name AND measuredAt <= :from AND measuredAt < :to", Measurement.class);
+        "FROM Measurement WHERE name LIKE :name AND measuredAt BETWEEN :from AND :to", Measurement.class);
     query.setParameter("name", name);
     query.setParameter("from", from);
     query.setParameter("to", to);
