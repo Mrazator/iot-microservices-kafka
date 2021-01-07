@@ -14,8 +14,6 @@ export class KafkaConsumer {
             kafkaHost: this.host
         })
 
-        this.logger.debug(`Created kafka client on host ${this.host}`)
-
         this.subscribe = this.subscribe.bind(this)
     }
 
@@ -40,6 +38,8 @@ export class KafkaConsumer {
 
             log(`${pre} Received message ${msg}`, LOG_TYPES.INFO)
         })
+
+        this.logger.debug(`Client subscribed to kafka topic ${topic} on host ${this.host}`)
     }
 
     // TODO: add unsubscribe

@@ -22,8 +22,13 @@ cd ../..
 echo "Archiver Image Built!"
 
 cd ./services/notification-service
-docker build -t "notification-service:latest" .
+# build notification service (all)
+docker build -t "notification-service:latest" --target notification-service-all .
+# build notification service (cli client)
+docker build -t "notification-service-client:latest" --target notification-service-client .
+# build notification service (just a server)
+docker build -t "notification-service-server:latest" --target notification-service-server .
 cd ../..
-echo "Notification Image Built!"
+echo "Notification Images Built!"
 
 
