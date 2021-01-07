@@ -10,15 +10,15 @@ export class CliClient {
 
         this.id = id
         this.pre = `[#${id} CLI]`
-        this.port = 8080
-        this.ws = new Websocket(`ws://localhost:${this.port}`)
+        this.host = process.env.WEB_SOCKET || 'localhost:8080'
+        this.ws = new Websocket(`ws://${this.host}`)
 
         this._addListeners.call(this)
     }
 
     _addListeners() {
         this.ws.addEventListener('open', () => {
-            this.logger.info(`${this.pre} Client initialized, listening on ws port ${this.port}`)
+            this.logger.info(`${this.pre} Client initialized, listening on host ${this.host}`)
         })
 
         this.ws.addEventListener('message', ({ data }) => {
