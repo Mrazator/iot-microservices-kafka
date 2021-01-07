@@ -21,6 +21,13 @@ docker build -f src/main/docker/Dockerfile.jvm -t "data-archiver:latest" .
 cd ../..
 echo "Archiver Image Built!"
 
+# build data analyzer image
+cd ./services/data-analyzer
+mvn clean install -DskipTests 
+docker build -f src/main/docker/Dockerfile.jvm -t "data-analyzer:latest" .
+cd ../..
+echo "Analyzer Image Built!"
+
 cd ./services/notification-service
 # build notification service (all)
 docker build -t "notification-service:latest" --target notification-service-all .

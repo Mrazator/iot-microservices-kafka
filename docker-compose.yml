@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.3'
 
 services:
   # Zookeeper server for kafka 
@@ -148,6 +148,17 @@ services:
       - 'archiveService.simulatedExceptionRatePercent=20'
     ports:
       - 8180:8080
+    depends_on:
+      - kafka1
+
+  data-analyzer:
+    image: data-analyzer:latest
+    container_name: pv217-analyzer
+    environment:
+      - 'mp.messaging.connector.smallrye-kafka.bootstrap.servers=kafka1:9092'
+      - 'com.nabiyev.pv217.iotservices.dataanalyzer.client.ArchiverRestClient/mp-rest/url=http://pv217-archiver:8080/'
+    ports:
+      - 8380:8080
     depends_on:
       - kafka1
     
