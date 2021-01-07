@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Timed;
@@ -20,20 +21,22 @@ import org.slf4j.LoggerFactory;
 @ApplicationScoped
 @Transactional
 public class ArchiveServiceImpl implements ArchiveService {
-  private static final int SIMULATED_EXCEPTION_PROBABILITY_PERCENT = 20;
   private static final Logger LOGGER = LoggerFactory.getLogger(KafkaEndpoint.class);
 
   private final ControlCenterRepo controlCenterRepo;
   private final MeasurementRepo measurementRepo;
+  private final int simulatedExceptionRatePercent;
 
   /**
    * @param controlCenterRepo
    * @param measurementRepo
    */
-  public ArchiveServiceImpl(ControlCenterRepo controlCenterRepo, MeasurementRepo measurementRepo) {
+  public ArchiveServiceImpl(ControlCenterRepo controlCenterRepo, MeasurementRepo measurementRepo,
+      @ConfigProperty(name = "archiveService.simulatedExceptionRatePercent") int simErrRate) {
     super();
     this.controlCenterRepo = controlCenterRepo;
     this.measurementRepo = measurementRepo;
+    this.simulatedExceptionRatePercent = simErrRate;
   }
 
   @Counted(name = "archiveReportCount", description = "Number of reports archived")
@@ -59,15 +62,18 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
   }
 
+  @Counted(name = "findMeasurementsCount", description = "Number of measurements search done")
+  @Timed(name = "findMeasurementsTime", description = "A measure of how long it takes to perform measurements searching", unit = MetricUnits.MILLISECONDS)
   @Override
-  public List<Measurement> findMeasurements(String name, Instant from, Instant to) {
-    LOGGER.debug("find measurements for "+name+", between "+from+" and "+to);
+  public List<Measurement> findMeasurements(String name, Instant from, Instant to, String controlCenterId) {
+    LOGGER.debug("find measurements for measurement '" + name + "' of controlcenter '" + controlCenterId + "', between "
+        + from + " and " + to);
     simulateError();
-    return measurementRepo.findMeasurements(name, from, to);
+    return measurementRepo.findMeasurements(name, from, to, controlCenterId);
   }
 
   private void simulateError() {
-    if (new Random().nextInt(100) < SIMULATED_EXCEPTION_PROBABILITY_PERCENT) {
+    if (new Random().nextInt(100) < simulatedExceptionRatePercent) {
       throw new SimulatedException("Simulated DB exception!");
     }
   }

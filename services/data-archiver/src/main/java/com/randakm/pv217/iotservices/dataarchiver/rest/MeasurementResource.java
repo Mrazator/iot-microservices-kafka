@@ -5,7 +5,6 @@ import com.randakm.pv217.iotservices.dataarchiver.data.Measurement;
 import com.randakm.pv217.iotservices.dataarchiver.kafka.KafkaEndpoint;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -33,7 +32,7 @@ public class MeasurementResource {
   
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public List<Measurement> getMeasurements(@QueryParam("name") String name, @QueryParam("from") String fromStr, @QueryParam("to") String toStr) {
+  public List<Measurement> getMeasurements(@QueryParam("name") String name, @QueryParam("from") String fromStr, @QueryParam("to") String toStr, @QueryParam("controlCenterId") String controlCenterId) {
     LOGGER.info("Called getMeasurements rest method! name="+name+", from="+fromStr+", to="+toStr);
 
     Instant from = null;
@@ -45,7 +44,7 @@ public class MeasurementResource {
     if(from == null) from = Instant.ofEpochMilli(0);
     if(to == null) to = Instant.now();
         
-    var result = archiveService.findMeasurements(name, from, to);
+    var result = archiveService.findMeasurements(name, from, to, controlCenterId);
     
     return result;
   }
