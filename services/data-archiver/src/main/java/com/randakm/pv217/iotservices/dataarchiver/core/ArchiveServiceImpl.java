@@ -2,6 +2,7 @@ package com.randakm.pv217.iotservices.dataarchiver.core;
 
 import com.randakm.pv217.iotservices.dataarchiver.data.ControlCenter;
 import com.randakm.pv217.iotservices.dataarchiver.data.Measurement;
+import com.randakm.pv217.iotservices.dataarchiver.kafka.KafkaEndpoint;
 
 import java.time.Instant;
 import java.util.List;
@@ -13,11 +14,14 @@ import javax.transaction.Transactional;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 @Transactional
 public class ArchiveServiceImpl implements ArchiveService {
   private static final int SIMULATED_EXCEPTION_PROBABILITY_PERCENT = 20;
+  private static final Logger LOGGER = LoggerFactory.getLogger(KafkaEndpoint.class);
 
   private final ControlCenterRepo controlCenterRepo;
   private final MeasurementRepo measurementRepo;
@@ -57,8 +61,8 @@ public class ArchiveServiceImpl implements ArchiveService {
 
   @Override
   public List<Measurement> findMeasurements(String name, Instant from, Instant to) {
-//    simulateError();
-//    return measurementRepo.findMeasurements();
+    LOGGER.debug("find measurements for "+name+", between "+from+" and "+to);
+    simulateError();
     return measurementRepo.findMeasurements(name, from, to);
   }
 
