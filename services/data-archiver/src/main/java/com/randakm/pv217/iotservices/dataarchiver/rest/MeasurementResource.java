@@ -32,12 +32,18 @@ public class MeasurementResource {
     Instant from = null;
     Instant to = null;
     
+    System.out.println("Called getMeasurements rest method! name="+name+", from="+fromdate+", to="+todate);
+    
     if(fromdate != null) from = Instant.ofEpochMilli(fromdate.getTime());
     if(todate != null) to = Instant.ofEpochMilli(todate.getTime());
     if(from == null) from = Instant.ofEpochMilli(0);
     if(to == null) to = Instant.now();
     
+    System.out.println("From="+from+", To="+to);
+    
     var result = archiveService.findMeasurements(name, from, to);
+    
+    System.out.println("Result size="+result.size());
     return result;
   }
   
