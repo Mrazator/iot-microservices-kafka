@@ -14,8 +14,8 @@ import java.util.List;
 @RegisterRestClient
 public interface ArchiverRestClient {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Measurement> getMeasurements(@QueryParam("name") String name, @QueryParam("from") String fromStr,
-                                             @QueryParam("to") String toStr, @QueryParam("controlCenterId") String controlCenterId);
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<Measurement> getMeasurements(@QueryParam("name") String name, @QueryParam("from") String fromStr,
+      @QueryParam("to") String toStr, @QueryParam("controlCenterId") String controlCenterId);
 }

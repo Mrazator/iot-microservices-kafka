@@ -16,21 +16,20 @@ import java.util.List;
 @Path("/statistics")
 public class AggregationResource {
 
-    @Inject
-    public AggregationService service;
+  @Inject
+  public AggregationService service;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<AggregatedMeasurement> getAggregatedMeasurements(@QueryParam("name") String name,
-                                                                 @QueryParam("from") String fromStr,
-                                                                 @QueryParam("to") String toStr,
-                                                                 @QueryParam("controlCenterId") String controlCenterId,
-                                                                 @QueryParam("unit") ChronoUnit unit) {
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<AggregatedMeasurement> getAggregatedMeasurements(@QueryParam("name") String name,
+      @QueryParam("from") String fromStr, @QueryParam("to") String toStr,
+      @QueryParam("controlCenterId") String controlCenterId, @QueryParam("unit") ChronoUnit unit) {
 
-        Instant from = fromStr != null ? Instant.parse(fromStr) : Instant.ofEpochMilli(0);
-        Instant to = toStr != null ? Instant.parse(toStr) : Instant.now();
-        if(unit == null) unit = ChronoUnit.HOURS;
+    Instant from = fromStr != null ? Instant.parse(fromStr) : Instant.ofEpochMilli(0);
+    Instant to = toStr != null ? Instant.parse(toStr) : Instant.now();
+    if (unit == null)
+      unit = ChronoUnit.HOURS;
 
-        return service.calculateAvarages(name, controlCenterId, from, to, unit);
-    }
+    return service.calculateAvarages(name, controlCenterId, from, to, unit);
+  }
 }
