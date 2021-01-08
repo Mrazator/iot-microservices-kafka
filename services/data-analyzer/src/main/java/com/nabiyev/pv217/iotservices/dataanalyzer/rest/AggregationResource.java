@@ -9,7 +9,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -29,6 +32,11 @@ public class AggregationResource {
       @QueryParam("from") String fromStr, @QueryParam("to") String toStr,
       @QueryParam("controlCenterId") String controlCenterId, @QueryParam("unit") ChronoUnit unit) {
 
+    if (name == null) {
+      throw new WebApplicationException(
+          Response.status(Response.Status.BAD_REQUEST).entity("name parameter is mandatory").type(MediaType.TEXT_PLAIN).build());
+    }
+    
     Instant from = fromStr != null ? Instant.parse(fromStr) : Instant.ofEpochMilli(0);
     Instant to = toStr != null ? Instant.parse(toStr) : Instant.now();
     if (unit == null)
