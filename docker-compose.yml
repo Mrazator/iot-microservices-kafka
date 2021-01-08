@@ -157,6 +157,7 @@ services:
     environment:
       - 'mp.messaging.connector.smallrye-kafka.bootstrap.servers=kafka1:9092'
       - 'com.nabiyev.pv217.iotservices.dataanalyzer.client.ArchiverRestClient/mp-rest/url=http://pv217-archiver:8080/'
+      - 'quarkus.log.category."com.nabiyev".level=DEBUG'
     ports:
       - 8380:8080
     depends_on:

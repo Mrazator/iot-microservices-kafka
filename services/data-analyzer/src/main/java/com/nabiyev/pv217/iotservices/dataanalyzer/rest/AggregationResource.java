@@ -2,6 +2,7 @@ package com.nabiyev.pv217.iotservices.dataanalyzer.rest;
 
 import com.nabiyev.pv217.iotservices.dataanalyzer.core.AggregationService;
 import com.nabiyev.pv217.iotservices.dataanalyzer.data.AggregatedMeasurement;
+import com.nabiyev.pv217.iotservices.dataanalyzer.kafka.KafkaEndpoint;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -19,6 +20,9 @@ public class AggregationResource {
   @Inject
   public AggregationService service;
 
+  @Inject
+  public KafkaEndpoint kafkaEndpoint;
+
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public List<AggregatedMeasurement> getAggregatedMeasurements(@QueryParam("name") String name,
@@ -30,6 +34,9 @@ public class AggregationResource {
     if (unit == null)
       unit = ChronoUnit.HOURS;
 
-    return service.calculateAvarages(name, controlCenterId, from, to, unit);
+    List<AggregatedMeasurement> result = service.calculateAvarages(name, controlCenterId, from, to, unit);
+    kafkaEndpoint.pushToKafka(result);
+    return result;
   }
+
 }

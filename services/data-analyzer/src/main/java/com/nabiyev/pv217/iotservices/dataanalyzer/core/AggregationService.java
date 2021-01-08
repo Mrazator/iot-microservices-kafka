@@ -3,17 +3,22 @@ package com.nabiyev.pv217.iotservices.dataanalyzer.core;
 import com.nabiyev.pv217.iotservices.dataanalyzer.client.ArchiverRestClient;
 import com.nabiyev.pv217.iotservices.dataanalyzer.data.AggregatedMeasurement;
 import com.nabiyev.pv217.iotservices.dataanalyzer.data.Measurement;
-import org.eclipse.microprofile.faulttolerance.Retry;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
 public class AggregationService {
@@ -22,6 +27,8 @@ public class AggregationService {
   @RestClient
   public ArchiverRestClient archiveClient;
 
+  @Counted(name = "calculateAvarages", description = "Number of avarage measurements calculation is done")
+  @Timed(name = "findMeasurementsTime", description = "A measure of how long it takes to perform measurements avarage calculation", unit = MetricUnits.MILLISECONDS)
   @Retry(maxRetries = 1)
   public List<AggregatedMeasurement> calculateAvarages(String name, String controlCenterId, Instant from, Instant to,
       ChronoUnit unit) {
