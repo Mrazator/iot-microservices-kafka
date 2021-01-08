@@ -87,6 +87,42 @@ Microservices prove of concept project for course PV217.  It provides functional
   - uses Archiver REST API to retrieve needed data
   - Features:
     * implements feature of "self-healing" by retrying data retrieving from archiver
+  - expected request example:
+  - expected output example (for request ***{baseurl}/statistics?name=Active%20Power&unit=MINUTES***)
+  ```json
+  [
+	{
+		"intervalEnd": "2021-01-08T10:15:00Z",
+		"intervalStart": "2021-01-08T10:14:00Z",
+		"name": "Active Power",
+		"value": 252.45240833333336
+	},
+	{
+		"intervalEnd": "2021-01-08T10:19:00Z",
+		"intervalStart": "2021-01-08T10:18:00Z",
+		"name": "Active Power",
+		"value": 253.09900000000003
+	},
+	{
+		"intervalEnd": "2021-01-08T10:23:00Z",
+		"intervalStart": "2021-01-08T10:22:00Z",
+		"name": "Active Power",
+		"value": 252.29516666666667
+	},
+	{
+		"intervalEnd": "2021-01-08T10:14:00Z",
+		"intervalStart": "2021-01-08T10:13:00Z",
+		"name": "Active Power",
+		"value": 241.94194117647059
+	},
+	{
+		"intervalEnd": "2021-01-08T10:18:00Z",
+		"intervalStart": "2021-01-08T10:17:00Z",
+		"name": "Active Power",
+		"value": 254.012575
+	}
+  ]
+  ```
 
 ## Notification service
   - used as kind of logging system
