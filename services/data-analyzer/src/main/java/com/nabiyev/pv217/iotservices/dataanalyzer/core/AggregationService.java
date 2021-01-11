@@ -67,7 +67,10 @@ public class AggregationService {
     agg.intervalEnd = intervalStart.plus(1, unit);
     agg.name = name;
     agg.controlCenterId = controlCenterId;
-    agg.value = measurements.stream().mapToDouble((m) -> m.value).average().getAsDouble();
+    agg.average = measurements.stream().mapToDouble((m) -> m.value).average().getAsDouble();
+    agg.average = Math.round(agg.average*1000)/1000.0;
+    agg.count = measurements.size();
+    
     return agg;
   }
 

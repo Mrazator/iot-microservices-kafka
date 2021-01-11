@@ -3,7 +3,8 @@ package com.nabiyev.pv217.iotservices.dataanalyzer.data;
 import java.time.Instant;
 
 public class AggregatedMeasurement {
-    public Double value;
+    public Double average;
+    public Integer count;
     public String name;
     public String controlCenterId;
     public Instant intervalStart;
