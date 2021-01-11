@@ -92,34 +92,32 @@ Microservices prove of concept project for course PV217.  It provides functional
   ```json
   [
 	{
-		"intervalEnd": "2021-01-08T10:15:00Z",
-		"intervalStart": "2021-01-08T10:14:00Z",
-		"name": "Active Power",
-		"value": 252.45240833333336
+		"average": 247.773,
+		"count": 72,
+		"intervalEnd": "2021-01-11T17:51:00Z",
+		"intervalStart": "2021-01-11T17:50:00Z",
+		"name": "Active Power"
 	},
 	{
-		"intervalEnd": "2021-01-08T10:19:00Z",
-		"intervalStart": "2021-01-08T10:18:00Z",
-		"name": "Active Power",
-		"value": 253.09900000000003
+		"average": 259.823,
+		"count": 119,
+		"intervalEnd": "2021-01-11T17:52:00Z",
+		"intervalStart": "2021-01-11T17:51:00Z",
+		"name": "Active Power"
 	},
 	{
-		"intervalEnd": "2021-01-08T10:23:00Z",
-		"intervalStart": "2021-01-08T10:22:00Z",
-		"name": "Active Power",
-		"value": 252.29516666666667
+		"average": 244.275,
+		"count": 119,
+		"intervalEnd": "2021-01-11T17:53:00Z",
+		"intervalStart": "2021-01-11T17:52:00Z",
+		"name": "Active Power"
 	},
 	{
-		"intervalEnd": "2021-01-08T10:14:00Z",
-		"intervalStart": "2021-01-08T10:13:00Z",
-		"name": "Active Power",
-		"value": 241.94194117647059
-	},
-	{
-		"intervalEnd": "2021-01-08T10:18:00Z",
-		"intervalStart": "2021-01-08T10:17:00Z",
-		"name": "Active Power",
-		"value": 254.012575
+		"average": 250.972,
+		"count": 20,
+		"intervalEnd": "2021-01-11T17:54:00Z",
+		"intervalStart": "2021-01-11T17:53:00Z",
+		"name": "Active Power"
 	}
   ]
   ```
