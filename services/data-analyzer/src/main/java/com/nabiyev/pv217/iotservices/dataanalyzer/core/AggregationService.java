@@ -56,6 +56,8 @@ public class AggregationService {
       AggregatedMeasurement agg = createAvgOf(name, inst, unit, controlCenterId, map.get(inst));
       aggregated.add(agg);
     }
+    
+    aggregated.sort((a,b) -> a.intervalStart.compareTo(b.intervalStart));
 
     return aggregated;
   }
